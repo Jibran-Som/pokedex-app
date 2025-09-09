@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import './MainSection.css'
 
 function MainSection(){
       const [pokemons, setPokemons] = useState([]);
 
-    function PokemonFromBackend(){
+    function PokemonsFromBackend(){
 
         fetch('http://127.0.0.1:5000/pokemon', {
         method: 'GET',
@@ -23,13 +25,13 @@ function MainSection(){
     }
 
     useEffect(() => {
-        PokemonFromBackend();
+        PokemonsFromBackend();
     }, []);
 
     return (
         <div>
         <h2>Pokémon List</h2>
-        <table>
+        <table border={1}>
             <tr>
                 <th>
                     Avatar
@@ -43,8 +45,8 @@ function MainSection(){
                 <td>
                     <img src={pokemon.avatar} alt={pokemon.name} style={{width: '100px', height: '100px'}} />
                 </td>
-                <td>
-                    <a>{pokemon.name}</a>
+                <td className='PokemonName'>
+                    <Link to={`/pokemon/${pokemon.id}`}>{pokemon.name}</Link>
                 </td>
             </tr>
             ))}

@@ -7,7 +7,9 @@ function Header(){
     return(
     <div>
         <div className='header'>
-            <img src={logo} alt="Pokemon Logo" style={{width: '100px', height: '100px'}} />
+            <a href="/">
+                <img src={logo} alt="Pokemon Logo" style={{width: '100px', height: '100px'}} />
+            </a>
             <h1>Pokédex</h1>
         </div>
     </div>

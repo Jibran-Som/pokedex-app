@@ -1,0 +1,32 @@
+.PokemonName {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #0077cc;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.PokemonName:hover {
+  color: #ff3c3c;
+}
+
+.PokemonName {
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #0077cc;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+table {
+  border: 2px solid #e63946;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+th {
+  background-color: #e63946;
+  color: white;
+  font-size: 1.2rem;
+}
