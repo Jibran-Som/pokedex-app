@@ -10,6 +10,8 @@ function Header(){
             <a href="/">
                 <img src={logo} alt="Pokemon Logo" style={{width: '100px', height: '100px'}} />
             </a>
+            <Link to="/" style={{color: 'white'}}>Pokémons</Link> 
+            <Link to="/moves" style={{color: 'white'}}>Moves</Link>
             <h1>Pokédex</h1>
         </div>
     </div>

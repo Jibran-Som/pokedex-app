@@ -172,6 +172,54 @@
     font-size: 1.1rem;
 }
 
+/* Moves Section Styles */
+.moves-section {
+    margin-top: 20px;
+}
+
+.moves-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    justify-content: center;
+}
+
+.moves-filters .filter-group {
+    display: flex;
+    flex-direction: column;
+    min-width: 150px;
+}
+
+.moves-filters .filter-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.moves-filters .filter-group select,
+.moves-filters .filter-group input {
+    padding: 6px 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 0.9rem;
+}
+
+.moves-filters .filter-group input {
+    min-width: 180px;
+}
+
+.moves-stats {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #666;
+    font-style: italic;
+}
+
 .moves-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -246,6 +294,22 @@
     line-height: 1.4;
 }
 
+.clear-filters-btn {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #3761a8;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.clear-filters-btn:hover {
+    background-color: #ffcb05;
+}
+
+/* Loading and Error States */
 .moves-loading, .no-moves {
     text-align: center;
     padding: 40px;
@@ -287,7 +351,7 @@
     100% { transform: rotate(360deg); }
 }
 
-/* Responsive adjustments */
+/* Responsive adjustments - Consolidated media queries */
 @media (max-width: 768px) {
     .pokemon-content {
         flex-direction: column;
@@ -312,5 +376,59 @@
     .tab {
         text-align: center;
         padding: 15px;
+    }
+    
+    .moves-filters {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .moves-filters .filter-group {
+        width: 100%;
+        max-width: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    .pokemon-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+    
+    .pokemon-id {
+        margin-left: 0;
+    }
+    
+    .pokemon-image-section {
+        min-width: auto;
+    }
+    
+    .pokemon-details-section {
+        min-width: auto;
+    }
+    
+    .moves-filters .filter-group input {
+        min-width: auto;
+        width: 100%;
+    }
+    
+    .move-header {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+    
+    .stat-row {
+        grid-template-columns: 60px 1fr 35px;
+        gap: 10px;
+    }
+    
+    .stat-name {
+        font-size: 0.9rem;
+    }
+    
+    .stat-value {
+        font-size: 0.9rem;
     }
 }

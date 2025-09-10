@@ -8,7 +8,6 @@ function Homepage(){
         <div>
             <Header />
             <MainSection />
-            <Footer />
         </div>
     );
 };

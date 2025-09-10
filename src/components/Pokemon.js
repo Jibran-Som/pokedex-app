@@ -10,6 +10,9 @@ function Pokemon() {
     const [movesLoading, setMovesLoading] = useState(false);
     const [error, setError] = useState(null);
     const [activeTab, setActiveTab] = useState('stats');
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filterType, setFilterType] = useState('all');
+    const [filterCategory, setFilterCategory] = useState('all');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -117,6 +120,25 @@ function Pokemon() {
     const displayValue = (value) => {
         return value > 0 ? value : '—';
     };
+
+    // Filter moves based on selected filters and search term
+    const filteredMoves = moves.filter(move => {
+        // Filter by type
+        const typeMatch = filterType === 'all' || 
+                         (move.type && move.type.toLowerCase() === filterType.toLowerCase());
+        
+        // Filter by category
+        const categoryMatch = filterCategory === 'all' || 
+                             (move.category && getCategoryFromUrl(move.category).toLowerCase() === filterCategory.toLowerCase());
+        
+        // Filter by search term
+        const searchMatch = searchTerm === '' || 
+                           (move.name && move.name.toLowerCase().includes(searchTerm.toLowerCase()));
+        
+        return typeMatch && categoryMatch && searchMatch;
+    });
+
+    const uniqueTypes = [...new Set(moves.map(move => move.type).filter(Boolean))].sort();
 
     if (loading) return (
         <div className="loading-container">
@@ -245,7 +267,7 @@ function Pokemon() {
                                     <div className="stat-bar-container">
                                         <div 
                                             className="stat-bar" 
-                                            style={{width: `${(pokemon.speed / 255) * 100}%`}}
+                                            style={{ width: `${(pokemon.speed / 255) * 100}%` }}
                                         ></div>
                                     </div>
                                     <span className="stat-value">{pokemon.speed}</span>
@@ -261,15 +283,68 @@ function Pokemon() {
                     {activeTab === 'moves' && (
                         <div className="moves-section">
                             <h2>Moves</h2>
+                            
+                            {/* Search and Filter Controls */}
+                            {moves.length > 0 && (
+                                <div className="moves-filters">
+                                    <div className="filter-group">
+                                        <label htmlFor="move-type-filter">Filter by Type:</label>
+                                        <select 
+                                            id="move-type-filter"
+                                            value={filterType}
+                                            onChange={(e) => setFilterType(e.target.value)}
+                                        >
+                                            <option value="all">All Types</option>
+                                            {uniqueTypes.map(type => (
+                                                <option key={type} value={type}>{type}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+
+                                    <div className="filter-group">
+                                        <label htmlFor="move-category-filter">Filter by Category:</label>
+                                        <select 
+                                            id="move-category-filter"
+                                            value={filterCategory}
+                                            onChange={(e) => setFilterCategory(e.target.value)}
+                                        >
+                                            <option value="all">All Categories</option>
+                                            <option value="physical">Physical</option>
+                                            <option value="special">Special</option>
+                                            <option value="status">Status</option>
+                                        </select>
+                                    </div>
+
+                                    <div className="filter-group">
+                                        <label htmlFor="move-search">Search Moves:</label>
+                                        <input
+                                            id="move-search"
+                                            type="text"
+                                            placeholder="Search move names..."
+                                            value={searchTerm}
+                                            onChange={(e) => setSearchTerm(e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                            )}
+
+                            <div className="moves-stats">
+                                <p>
+                                    Showing {filteredMoves.length} of {moves.length} moves
+                                    {searchTerm && ` for "${searchTerm}"`}
+                                    {filterType !== 'all' && ` of type ${filterType}`}
+                                    {filterCategory !== 'all' && ` in category ${filterCategory}`}
+                                </p>
+                            </div>
+
                             {movesLoading ? (
                                 <div className="moves-loading">
                                     <p>Loading moves...</p>
                                 </div>
-                            ) : moves.length > 0 ? (
+                            ) : filteredMoves.length > 0 ? (
                                 <div>
-                                    <p>This Pokémon knows {moves.length} moves from our database:</p>
                                     <div className="moves-grid">
-                                        {moves.map((move, index) => (
+                                        {filteredMoves.map((move, index) => (
                                             <div key={index} className="move-card">
                                                 <div className="move-header">
                                                     <h3 className="move-name">{move.name}</h3>
@@ -314,6 +389,20 @@ function Pokemon() {
                                             </div>
                                         ))}
                                     </div>
+                                </div>
+                            ) : moves.length > 0 ? (
+                                <div className="no-moves">
+                                    <p>No moves found matching your search criteria.</p>
+                                    <button 
+                                        onClick={() => {
+                                            setSearchTerm('');
+                                            setFilterType('all');
+                                            setFilterCategory('all');
+                                        }}
+                                        className="clear-filters-btn"
+                                    >
+                                        Clear Filters
+                                    </button>
                                 </div>
                             ) : pokemon.moves && pokemon.moves.length > 0 ? (
                                 <div className="no-moves">
